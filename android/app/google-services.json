@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "180909805115",
+    "project_id": "good-chat-app-96c04",
+    "storage_bucket": "good-chat-app-96c04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180909805115:android:85036641c3f881be5ed61e",
+        "android_client_info": {
+          "package_name": "com.good_chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180909805115-222gesrollca2vr1bjp9e8tfnphtsa54.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.good_chat_app",
+            "certificate_hash": "bddcb183d98e15cd23159bb05d0bafd81253592f"
+          }
+        },
+        {
+          "client_id": "180909805115-s95opcvede1m8a9e1bjh7p4kldmj8uvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRN5FuHdHqxiDlZJY0oKox_uKuPda0w3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180909805115-s95opcvede1m8a9e1bjh7p4kldmj8uvs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
