@@ -2,53 +2,65 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
+import '../../widgets/animate-signup-textfield.dart';
 import '../../widgets/rectangular_button.dart';
 import '../../widgets/rectangular_input_field.dart';
 
 class Credentials extends StatelessWidget {
-  const Credentials({Key? key}) : super(key: key);
+   Credentials({Key? key}) : super(key: key);
 
-  @override
+   TextEditingController userNameController = TextEditingController();
+   TextEditingController emailController = TextEditingController();
+   TextEditingController passwordController = TextEditingController();
+
+   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:  EdgeInsets.all(appPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const RectangularInputField(
-            hintText: 'Username',
-            icon: Icons.person,
-            obscureText: false,
-          ),
-          SizedBox(
-            height: appPadding / 2,
-          ),
-          RectangularInputField(
-            hintText: 'Email',
-            icon: Icons.email_rounded,
-            obscureText: false,
-          ),
-          SizedBox(
-            height: appPadding / 2,
-          ),
-          RectangularInputField(
-            hintText: 'Password',
-            icon: Icons.lock,
-            obscureText: true,
-          ),
-          SizedBox(
-            height: appPadding / 2,
-          ),
-          Center(
-            child: Text(
-              'Forget Password?',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 17,
-              ),
-            ),
-          ),
-          RectangularButton(text: 'Sign In', press: (){})
+          //  RectangularInputField(
+          //   controller: userNameController,
+          //   textInputType: TextInputType.text,
+          //   hintText: 'Username',
+          //   icon: Icons.person,
+          //   obscureText: false,
+          // ),
+          // SizedBox(
+          //   height: appPadding / 2,
+          // ),
+          // RectangularInputField(
+          //   controller: emailController,
+          //   textInputType: TextInputType.emailAddress,
+          //   hintText: 'Email',
+          //   icon: Icons.email_rounded,
+          //   obscureText: false,
+          // ),
+          // SizedBox(
+          //   height: appPadding / 2,
+          // ),
+          // RectangularInputField(
+          //   controller: passwordController,
+          //   textInputType: TextInputType.text,
+          //   hintText: 'Password',
+          //   icon: Icons.lock,
+          //   obscureText: true,
+          // ),
+          Container (height: 750, child: const AnimateSignUpFields()),
+          // SizedBox(
+          //   height: appPadding / 2,
+          // ),
+          // Center(
+          //   child: Text(
+          //     'Forget Password?',
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.w400,
+          //       fontSize: 17,
+          //     ),
+          //   ),
+          // ),
+          // RectangularButton(text: 'Sign In', press: (){})
         ],
       ),
     );

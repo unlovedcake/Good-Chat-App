@@ -17,5 +17,5 @@ const Color darkShadow =Color(0xff939393);
 // const Color lightShadow =  Color(0xfffff7f4);
 // const Color darkShadow =Color(0xffc3b0a9);
 
-const double appPadding = 30;
+const double appPadding = 20;
 const Color black = Colors.black;

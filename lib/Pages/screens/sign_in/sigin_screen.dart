@@ -16,9 +16,9 @@ class SignInScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeadText(),
+
             Credentials(),
-            Social(),
+
           ],
         ),
       ),

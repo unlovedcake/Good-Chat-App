@@ -4,6 +4,7 @@ import '../../../constants/constants.dart';
 import '../../sign_up/sigup_screen.dart';
 import '../../widgets/account_check.dart';
 import '../../widgets/rounded_button.dart';
+import '../sigin_screen.dart';
 
 class Social extends StatelessWidget {
   const Social({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class Social extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return SignUpScreen();
+                  return SignInScreen();
                 },
               ),
             );

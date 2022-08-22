@@ -6,7 +6,6 @@ import 'package:good_chat_app/Pages/screens/sign_in/sigin_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../Router/navigate-route.dart';
 import '../../Theme/color-theme.dart';
-import '../screens/widgets/rectangular_button.dart';
 
 
 class Login extends StatefulWidget {
@@ -97,10 +96,10 @@ class _LoginState extends State<Login> {
                 height: 10,
               ),
 
-
-              RectangularButton(text: 'Sign In', press: (){
+              ElevatedButton(onPressed: (){
                 NavigateRoute.gotoPage(context, SignInScreen());
-              }),
+              }, child: const Text("Register",style: TextStyle(fontSize: 18),)),
+
               TextButton(onPressed: (){}, child: const Text("Forgot Password?",style: TextStyle(color: Colors.black),)),
 
               MaterialButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:good_chat_app/Pages/screens/sign_up/sigup_screen.dart';
 
 import '../../../constants/constants.dart';
 import '../../sign_in/sigin_screen.dart';
@@ -39,7 +40,7 @@ class Social extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return SignInScreen();
+                  return SignUpScreen();
                 },
               ),
             );
