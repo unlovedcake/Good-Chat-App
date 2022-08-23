@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:good_chat_app/Pages/search-user.dart';
+import 'package:good_chat_app/Router/navigate-route.dart';
 
 import 'chatDetail.dart';
 import 'conversation-list.dart';
+import 'home.dart';
 
 class Chat extends StatefulWidget {
   const Chat({Key? key}) : super(key: key);
@@ -176,23 +179,53 @@ class _ChatState extends State<Chat> {
         padding: EdgeInsets.only(top: 16, left: 16, right: 16),
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search...",
-                hintStyle: TextStyle(color: Colors.grey.shade600),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade600,
-                  size: 20,
-                ),
-                filled: true,
-                fillColor: Colors.grey.shade100,
-                contentPadding: EdgeInsets.all(8),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.grey.shade100)),
+
+            InkWell(
+              onTap: (){
+                NavigateRoute.gotoPage(context, SearchUser());
+              },
+              child: Container(
+                height: 50,
+                  decoration:   BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      // borderRadius:  BorderRadius.only(
+                      //   topLeft: Radius.circular(40.0),
+                      //   topRight: Radius.circular(40.0),
+                      // )
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Spacer(),
+                        Text("Search.."),
+                        Spacer(),
+                        Icon(Icons.search),
+                      ],
+                    ),
+                  )
               ),
             ),
+            // TextFormField(
+            //   readOnly: true,
+            //   decoration: InputDecoration(
+            //     hintText: "Search...",
+            //     hintStyle: TextStyle(color: Colors.grey.shade600),
+            //     prefixIcon: Icon(
+            //       Icons.search,
+            //       color: Colors.grey.shade600,
+            //       size: 20,
+            //     ),
+            //     filled: true,
+            //     fillColor: Colors.grey.shade100,
+            //     contentPadding: EdgeInsets.all(8),
+            //     enabledBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(20),
+            //         borderSide: BorderSide(color: Colors.grey.shade100)),
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),
@@ -202,9 +235,9 @@ class _ChatState extends State<Chat> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return ChatDetail();
-                      }));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context){
+                      //   return ChatDetail();
+                      // }));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

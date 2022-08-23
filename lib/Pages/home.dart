@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:good_chat_app/Theme/color-theme.dart';
 
 import 'chat.dart';
 
@@ -37,11 +38,14 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
 
     _pages = <Widget>[
       Chat(),
-      Icon(
-        Icons.camera,
+      const Icon(
+        Icons.settings,
         size: 150,
       ),
-      Chat(),
+      const Icon(
+        Icons.person,
+        size: 150,
+      ),
     ];
     super.initState();
   }
@@ -57,7 +61,7 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(_selectedIndex == 1 ? "Camera" : "Conversation",),
+          title: Text(_selectedIndex == 1 ? "Setting" : "Conversation",),
           automaticallyImplyLeading: false,
               elevation: 0,
         actions: [
@@ -77,13 +81,13 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
     // axisAlignment: -1.0,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex, //New
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: MyTheme.logoColor,
         // iconSize: 40,
         mouseCursor: SystemMouseCursors.grab,
 
         selectedFontSize: 12,
         selectedIconTheme: const IconThemeData(color: Colors.white, size: 40),
-        selectedItemColor: Colors.amberAccent,
+        selectedItemColor: Colors.white,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
 
         //hide label text
@@ -102,12 +106,12 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Camera',
+            icon: Icon(Icons.settings),
+            label: 'Setting',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Call',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
 
         ],

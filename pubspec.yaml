@@ -27,6 +27,9 @@ dependencies:
   google_fonts: ^3.0.1
   intl_phone_field: ^3.1.0
   animated_text_kit: ^4.2.2
+  cloud_firestore: ^3.4.5
+  quickalert: ^0.0.2
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:

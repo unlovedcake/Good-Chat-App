@@ -25,6 +25,7 @@ class ProgressDialog extends StatelessWidget {
                 width: 6.0,
               ),
               const CircularProgressIndicator(
+                strokeWidth: 1,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
               ),
               const SizedBox(

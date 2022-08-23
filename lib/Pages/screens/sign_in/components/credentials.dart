@@ -17,13 +17,16 @@ class Credentials extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+
     return Padding(
       padding:  EdgeInsets.all(appPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Container (height: 760, child: const AnimateSignInFields()),
+          Container (height: size.height, child: const AnimateSignInFields()),
           // RectangularInputField(
           //   controller: emailController,
           //   textInputType: TextInputType.emailAddress,

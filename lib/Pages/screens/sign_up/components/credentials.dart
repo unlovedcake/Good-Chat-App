@@ -15,6 +15,9 @@ class Credentials extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
+
+     var size = MediaQuery.of(context).size;
+
     return Padding(
       padding:  EdgeInsets.all(appPadding),
       child: Column(
@@ -47,7 +50,7 @@ class Credentials extends StatelessWidget {
           //   icon: Icons.lock,
           //   obscureText: true,
           // ),
-          Container (height: 750, child: const AnimateSignUpFields()),
+          Container (height: size.height, child: const AnimateSignUpFields()),
           // SizedBox(
           //   height: appPadding / 2,
           // ),

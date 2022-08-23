@@ -1,9 +1,12 @@
 import 'package:auto_animated/auto_animated.dart';
 
 import 'package:flutter/material.dart';
+import 'package:good_chat_app/Models/user-model.dart';
 import 'package:good_chat_app/Pages/screens/widgets/rectangular_button.dart';
 import 'package:good_chat_app/Pages/screens/widgets/rectangular_input_field.dart';
 import 'package:good_chat_app/Pages/screens/widgets/utils.dart';
+import 'package:good_chat_app/Provider/auth-provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
 
@@ -21,7 +24,8 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
   int itemsCount = 0;
   List<Widget> icon = [];
 
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -36,14 +40,28 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
         child: Column(
           children: [
             RectangularInputField(
-              controller: userNameController,
+              controller: firstNameController,
               textInputType: TextInputType.text,
-              hintText: 'Username',
+              hintText: 'First Name',
               icon: Icons.person,
               obscureText: false,
+              onChanged: (val) {},
               validator: (value) {
                 if (value!.isEmpty) {
                   return ("User name is required");
+                }
+              },
+            ),
+            RectangularInputField(
+              controller: lastNameController,
+              textInputType: TextInputType.text,
+              hintText: 'Last Name',
+              icon: Icons.person,
+              obscureText: false,
+              onChanged: (val) {},
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return ("Last name is required");
                 }
               },
             ),
@@ -53,6 +71,7 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
               hintText: 'Email',
               icon: Icons.email_rounded,
               obscureText: false,
+              onChanged: (val) {},
               validator: (value) {
                 if (value!.isEmpty) {
                   return ("Email  is required");
@@ -65,6 +84,7 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
               hintText: 'Password',
               icon: Icons.lock,
               obscureText: true,
+              onChanged: (val) {},
               validator: (value) {
                 if (value!.isEmpty) {
                   return ("Password  is required");
@@ -80,7 +100,17 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
       RectangularButton(
           text: 'Sign Up',
           press: () {
-            if (_formKey.currentState!.validate()) {}
+            UserModel userModel = UserModel()
+              ..firstName = firstNameController.text
+              ..lastName = lastNameController.text
+              ..email = emailController.text
+              ..userType = "User"
+              ..imageUrl =
+                  "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000";
+            if (_formKey.currentState!.validate()) {
+
+              context.read<AuthProvider>().signUp(passwordController.text, userModel, context);
+            }
           }),
       SizedBox(
         height: 60,
@@ -110,8 +140,10 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
     return LiveList(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(16),
-        showItemInterval: Duration(milliseconds: 150),
-        showItemDuration: Duration(milliseconds: 250),
+        showItemInterval: Duration(milliseconds: 200),
+        showItemDuration: Duration(milliseconds: 750),
+        // showItemInterval: Duration(milliseconds: 150),
+        // showItemDuration: Duration(milliseconds: 250),
         visibleFraction: 0.001,
         itemCount: itemsCount,
         itemBuilder: animationItemBuilder((index) => icon[index]));

@@ -12,13 +12,15 @@ class RectangularInputField extends StatelessWidget {
   final TextInputType textInputType;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
-  const RectangularInputField({Key? key, required this.validator, required this.controller, required this.textInputType,required this.hintText,  required this.icon, required this.obscureText}) : super(key: key);
+  const RectangularInputField({Key? key, required this.onChanged, required this.validator, required this.controller, required this.textInputType,required this.hintText,  required this.icon, required this.obscureText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return NeumorphicTextFieldContainer(
       child: TextFormField(
+        onChanged: onChanged,
         validator: validator,
         controller: controller,
         keyboardType: textInputType,

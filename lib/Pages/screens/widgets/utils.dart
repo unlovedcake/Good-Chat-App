@@ -58,23 +58,40 @@ Widget Function(
         (
         BuildContext context,
         int index,
-        Animation<double> animation,
+        Animation<double> animation
         ) =>
         FadeTransition(
           opacity: Tween<double>(
             begin: 0,
             end: 1,
           ).animate(animation),
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0, -0.1),
-              end: Offset.zero,
-            ).animate(animation),
+
+          // child: SizeTransition(
+          //   sizeFactor: animation,
+          //   axis: Axis.horizontal,
+          //   axisAlignment: -1,
+          //     child: Padding(
+          //           padding: padding,
+          //           child: child(index),
+          //         ),
+          // ),
+          child: ScaleTransition(
+            scale: animation,
             child: Padding(
-              padding: padding,
-              child: child(index),
-            ),
+                  padding: padding,
+                  child: child(index),
+                ),
           ),
+          // child: SlideTransition(
+          //   position: Tween<Offset>(
+          //     begin: Offset(0, -0.1),
+          //     end: Offset.zero,
+          //   ).animate(animation),
+          //   child: Padding(
+          //     padding: padding,
+          //     child: child(index),
+          //   ),
+          // ),
         );
 
 Widget Function(

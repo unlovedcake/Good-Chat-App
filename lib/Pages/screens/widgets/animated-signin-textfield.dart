@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:good_chat_app/Pages/screens/widgets/rectangular_button.dart';
 import 'package:good_chat_app/Pages/screens/widgets/rectangular_input_field.dart';
 import 'package:good_chat_app/Pages/screens/widgets/utils.dart';
+import 'package:good_chat_app/Provider/auth-provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
 
@@ -45,7 +47,11 @@ class _AnimateSignInFieldsState extends State<AnimateSignInFields> {
               hintText: 'Email',
               icon: Icons.email_rounded,
               obscureText: false,
+              onChanged: (val) {
+
+              },
               validator: (value){
+
                 if (value!.isEmpty) {
                   return ("Email is required");
                 }
@@ -57,6 +63,9 @@ class _AnimateSignInFieldsState extends State<AnimateSignInFields> {
               hintText: 'Password',
               icon: Icons.lock,
               obscureText: true,
+              onChanged: (val) {
+
+              },
               validator: (value){
                 if (value!.isEmpty) {
                   return ("Pasword is required");
@@ -72,7 +81,9 @@ class _AnimateSignInFieldsState extends State<AnimateSignInFields> {
 
       SizedBox(height: 60,),
       RectangularButton(text: 'Sign In', press: (){
-        if (_formKey.currentState!.validate()) {}
+        if (_formKey.currentState!.validate()) {
+          context.read<AuthProvider>().signIn(emailController.text,passwordController.text, context);
+        }
       }),
       SizedBox(
         height: appPadding / 2,
@@ -114,8 +125,8 @@ class _AnimateSignInFieldsState extends State<AnimateSignInFields> {
     return LiveList(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(16),
-        showItemInterval: Duration(milliseconds: 150),
-        showItemDuration: Duration(milliseconds: 250),
+        showItemInterval: Duration(milliseconds: 200),
+        showItemDuration: Duration(milliseconds: 750),
         visibleFraction: 0.001,
         itemCount: itemsCount,
 
