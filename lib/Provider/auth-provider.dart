@@ -37,27 +37,48 @@ class AuthProvider extends ChangeNotifier {
               email: userModel!.email.toString(), password: password);
       user = userCredential.user;
 
-      await user!.updateDisplayName(userModel.userType.toString());
+      await user!.updateDisplayName(userModel.firstName);
+      await user!.updatePhotoURL(userModel.imageUrl);
       await user!.reload();
       user = _auth.currentUser;
+
+      userModel.docID = user!.uid;
+
 
       await FirebaseFirestore.instance
           .collection("table-user")
           .doc(user!.uid)
           .set(userModel.toMap())
-          .whenComplete(() async {
+          .then((uid) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('email', userModel.email.toString());
 
         userEmail = userModel.email.toString();
 
-        NavigateRoute.gotoPage(context, Home());
-        Navigator.of(context).pop();
-        Fluttertoast.showToast(
-          msg: "Account created successfully :) ",
-          timeInSecForIosWeb: 3,
-          gravity: ToastGravity.CENTER_RIGHT,
-        );
+
+          NavigateRoute.gotoPage(context, Home());
+
+
+          QuickAlert.show(
+
+            //customAsset: 'assets/images/form-header-img.png',
+              context: context,
+              autoCloseDuration: const Duration(seconds: 3),
+              type: QuickAlertType.success,
+              text: 'Welcome, You are now logged in !!!',
+              onConfirmBtnTap: (){
+                Navigator.of(context).pop();
+              }
+          );
+
+
+
+
+        // Fluttertoast.showToast(
+        //   msg: "Account created successfully :) ",
+        //   timeInSecForIosWeb: 3,
+        //   gravity: ToastGravity.CENTER_RIGHT,
+        // );
 
         notifyListeners();
       });
@@ -105,7 +126,7 @@ class AuthProvider extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) async {
         User? usr = FirebaseAuth.instance.currentUser;
-            if(usr!.displayName == "User"){
+
 
               //Navigator.of(context).pop();
               NavigateRoute.gotoPage(context, const Home());
@@ -127,7 +148,7 @@ class AuthProvider extends ChangeNotifier {
               //   msg: "You are now logged in... :) ",
               //   gravity: ToastGravity.CENTER_RIGHT,
               // );
-            }
+
 
 
         SharedPreferences prefs = await SharedPreferences.getInstance();

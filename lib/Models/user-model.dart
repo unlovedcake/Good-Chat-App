@@ -1,14 +1,15 @@
 class UserModel {
+
+  String? docID;
   String? firstName;
   String? lastName;
   String? email;
   String? userType;
   String? imageUrl;
 
-  List<bool> isShowTextField = [];
 
   UserModel(
-      {this.firstName,
+      {this.docID,this.firstName,
         this.lastName,
         this.email,
         this.userType,
@@ -18,6 +19,7 @@ class UserModel {
   factory UserModel.fromMap(map) {
     return UserModel(
 
+      docID: map['docID'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],
@@ -30,6 +32,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
 
+      'docID': docID,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

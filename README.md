@@ -22,3 +22,8 @@ Get Sha1
 #SHA1: BD:DC:B1:83:D9:8E:15:CD:23:15:9B:B0:5D:0B:AF:D8:12:53:59:2F
 
 #SHA256: CF:50:24:7F:6E:67:79:5C:81:9A:10:16:D4:7B:9D:D9:1D:BE:CC:32:DB:33:7F:99:2B:C5:CA:87:AF:45:2F:1C
+
+Date Format To String 
+
+DateFormat.jm().format(DateTime.now())
+// 12: 00 pm

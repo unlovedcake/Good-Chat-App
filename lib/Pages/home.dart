@@ -1,10 +1,12 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:good_chat_app/Theme/color-theme.dart';
 
+import '../firestore-constant.dart';
 import 'chat.dart';
 
 class Home extends StatefulWidget {
@@ -253,6 +255,9 @@ class _OutgoingPageState extends State<OutgoingPage>
     }
     return false;
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
