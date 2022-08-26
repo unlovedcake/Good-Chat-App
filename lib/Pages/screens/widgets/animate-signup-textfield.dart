@@ -105,6 +105,12 @@ class _AnimateSignUpFieldsState extends State<AnimateSignUpFields> {
               ..lastName = lastNameController.text
               ..email = emailController.text
               ..userType = "User"
+              ..chattingWith = {
+                'chattingWith' : "",
+                'lastMessage' : "",
+                'dateLastMessage' : DateTime.now(),
+
+              }
               ..imageUrl =
                   "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000";
             if (_formKey.currentState!.validate()) {

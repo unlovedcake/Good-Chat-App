@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:good_chat_app/Pages/LoginAndRegister/login.dart';
+import 'package:good_chat_app/Pages/chatDetail.dart';
 import 'package:good_chat_app/Theme/color-theme.dart';
 
 import '../firestore-constant.dart';
@@ -19,7 +21,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
 
   int _selectedIndex = 0;
-
+  PageController? _pageController;
   late AnimationController animationController;
   late List<Widget> _pages;
 
@@ -34,7 +36,7 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
 
   @override
   void initState() {
-
+    _pageController = PageController(initialPage: _selectedIndex);
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
@@ -73,9 +75,22 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (newpage){
+          setState(() {
+            this._selectedIndex = newpage;
+          });
+        },
+        children: [
+          Chat(),
+          Login(),
+          Login(),
+          // IndexedStack(
+          //   index: _selectedIndex,
+          //   children: _pages,
+          // ),
+        ],
       ),
 
     // bottomNavigationBar: SizeTransition(
@@ -100,8 +115,13 @@ class _HomeState extends State<Home>  with SingleTickerProviderStateMixin{
           color: Colors.grey,
         ),
 
-        onTap: _onItemTapped,
+        onTap: (index) {
+          this._pageController?.animateToPage(index,
+              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+        },
+        //onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
+
 
           BottomNavigationBarItem(
             icon: Icon(Icons.call),

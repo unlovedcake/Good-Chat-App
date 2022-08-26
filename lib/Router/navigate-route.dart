@@ -7,4 +7,12 @@ class NavigateRoute {
       MaterialPageRoute(builder: (context) => widget),
     );
   }
+
+
+  static routePageAnimation(BuildContext context, Route widget) {
+    Navigator.push(
+      context,
+        widget
+    );
+  }
 }

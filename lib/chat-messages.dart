@@ -5,7 +5,7 @@ import 'firestore-constant.dart';
 class ChatMessages {
   String idFrom;
   String idTo;
-  String timestamp;
+  DateTime timestamp;
   String content;
   int type;
 
@@ -29,7 +29,7 @@ class ChatMessages {
   factory ChatMessages.fromDocument(DocumentSnapshot documentSnapshot) {
     String idFrom = documentSnapshot.get(FirestoreConstants.idFrom);
     String idTo = documentSnapshot.get(FirestoreConstants.idTo);
-    String timestamp = documentSnapshot.get(FirestoreConstants.timestamp);
+    DateTime timestamp = documentSnapshot.get(FirestoreConstants.timestamp);
     String content = documentSnapshot.get(FirestoreConstants.content);
     int type = documentSnapshot.get(FirestoreConstants.type);
 

@@ -6,6 +6,7 @@ class UserModel {
   String? email;
   String? userType;
   String? imageUrl;
+  Map? chattingWith;
 
 
   UserModel(
@@ -13,7 +14,8 @@ class UserModel {
         this.lastName,
         this.email,
         this.userType,
-        this.imageUrl});
+        this.imageUrl,
+        this.chattingWith});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -25,6 +27,7 @@ class UserModel {
       email: map['email'],
       userType: map['userType'],
       imageUrl: map['imageUrl'],
+      chattingWith: map['chattingWith'],
     );
   }
 
@@ -38,6 +41,7 @@ class UserModel {
       'email': email,
       'userType': userType,
       'imageUrl': imageUrl,
+      'chattingWith': chattingWith,
     };
   }
 }

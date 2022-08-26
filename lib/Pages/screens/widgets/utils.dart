@@ -75,23 +75,23 @@ Widget Function(
           //           child: child(index),
           //         ),
           // ),
-          child: ScaleTransition(
-            scale: animation,
-            child: Padding(
-                  padding: padding,
-                  child: child(index),
-                ),
-          ),
-          // child: SlideTransition(
-          //   position: Tween<Offset>(
-          //     begin: Offset(0, -0.1),
-          //     end: Offset.zero,
-          //   ).animate(animation),
+          // child: ScaleTransition(
+          //   scale: animation,
           //   child: Padding(
-          //     padding: padding,
-          //     child: child(index),
-          //   ),
+          //         padding: padding,
+          //         child: child(index),
+          //       ),
           // ),
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(0, -0.1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: Padding(
+              padding: padding,
+              child: child(index),
+            ),
+          ),
         );
 
 Widget Function(

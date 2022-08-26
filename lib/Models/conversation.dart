@@ -22,7 +22,6 @@ class Conversation {
       idFrom: map['idFrom'],
       idTo: map['idTo'],
       messageText: map['message'],
-      user: map['user'],
       dateCreated: map['dateCreated'],
       type: map['type'],
     );
@@ -31,10 +30,9 @@ class Conversation {
   // sending data to our server
   Map<String, dynamic> toMap() {
     return {
-      'idForm': idFrom,
+      'idFrom': idFrom,
       'idTo': idTo,
       'message': messageText,
-      'user': user,
       'dateCreated': dateCreated,
       'type': type,
     };

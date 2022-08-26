@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:good_chat_app/Models/user-model.dart';
 import 'package:good_chat_app/Pages/search-user.dart';
+import 'package:good_chat_app/Provider/auth-provider.dart';
 import 'package:good_chat_app/Router/navigate-route.dart';
+import 'package:good_chat_app/read_timestamp.dart';
+import 'package:provider/provider.dart';
 
 import '../chat-user.dart';
 import 'chatDetail.dart';
@@ -18,7 +21,7 @@ class Chat extends StatefulWidget {
   State<Chat> createState() => _ChatState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatState extends State<Chat> with WidgetsBindingObserver {
   List<Widget> listChat = [
     Row(
       children: [
@@ -179,6 +182,39 @@ class _ChatState extends State<Chat> {
   }
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      print("RESUME");
+
+    } else if (state == AppLifecycleState.inactive) {
+      print("INACTIVE");
+      context.read<AuthProvider>().setAppActive(false);
+
+    } else if (state == AppLifecycleState.paused) {
+      context.read<AuthProvider>().setAppActive(false);
+      print(" PAUSE");
+    } else if (state == AppLifecycleState.detached) {
+      context.read<AuthProvider>().setAppActive(false);
+      print("DETACHED");
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+    print('dispose called.............');
+  }
+
+  @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     return SafeArea(
@@ -324,12 +360,11 @@ class _ChatState extends State<Chat> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot? documentSnapshot) {
-    final firebaseAuth = FirebaseAuth.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (documentSnapshot != null) {
-      ChatUser userChat = ChatUser.fromDocument(documentSnapshot);
+      UserModel userChat = UserModel.fromMap(documentSnapshot);
 
-      if (userChat.id == user!.uid) {
+      if (userChat.docID == user!.uid) {
         return const SizedBox.shrink();
       } else {
         return TextButton(
@@ -383,7 +418,23 @@ class _ChatState extends State<Chat> {
                   documentSnapshot.get('firstName'),
                   style: const TextStyle(color: Colors.black),
                 ),
+                documentSnapshot.get('chattingWith')['lastMessage'] == "" &&
+                        documentSnapshot.get('email') == user.email
+                    ? SizedBox.shrink()
+                    : Text(
+                        documentSnapshot.get('docID') == userChat.docID
+                            ? documentSnapshot
+                                .get('chattingWith')['lastMessage']
+                            : "",
+                        style: const TextStyle(color: Colors.black),
+                      )
               ],
+            ),
+            trailing: Text(
+              readTimestamp(documentSnapshot
+                  .get('chattingWith')['dateLastMessage']
+                  .millisecondsSinceEpoch),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         );

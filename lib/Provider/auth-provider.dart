@@ -19,6 +19,15 @@ class AuthProvider extends ChangeNotifier {
   String? errorMessage;
   String? userEmail;
 
+  bool isAppActive = true;
+
+  bool get getAppActive => isAppActive;
+
+  setAppActive(bool isActive){
+    isAppActive = isActive;
+    notifyListeners();
+  }
+
   String get getUserEmail => userEmail!;
 
   signUp(String password, UserModel? userModel, BuildContext context) async {

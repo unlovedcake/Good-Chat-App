@@ -6,9 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:good_chat_app/Models/user-model.dart';
 import 'package:good_chat_app/read_timestamp.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../Models/conversation.dart';
+import '../Provider/auth-provider.dart';
 import '../chat-messages.dart';
 import '../firestore-constant.dart';
 
@@ -35,6 +37,28 @@ class _ChatDetailState extends State<ChatDetail> {
         messageContent: "Is there any thing wrong?", messageType: "sender"),
   ];
 
+  List<Widget> listChat = [
+    Row(
+      children: [
+        CircleAvatar(
+          radius: 30,
+          child: Icon(
+            Icons.person,
+            size: 50,
+          ),
+        ),
+        Column(
+          children: [
+            Text(" Jhon Wick"),
+            Text(" Good To Know"),
+          ],
+        ),
+        Spacer(),
+        Text(" Today"),
+      ],
+    ),
+  ];
+
   List<QueryDocumentSnapshot> listMessage = [];
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -51,12 +75,14 @@ class _ChatDetailState extends State<ChatDetail> {
     } else {
       groupChatId = '${widget.user.docID.toString()}-$currentUserId';
     }
+  }
 
-    updateDataFirestore(
-      FirestoreConstants.pathUserCollection,
-      currentUserId!,
-      {FirestoreConstants.chattingWith: widget.user.docID.toString()},
-    );
+  Future<void> updateDataFirestore(String collectionPath, String docPath,
+      Map<String, Object> dataNeedUpdate) {
+    return FirebaseFirestore.instance
+        .collection(collectionPath)
+        .doc(docPath)
+        .update(dataNeedUpdate);
   }
 
   @override
@@ -73,69 +99,45 @@ class _ChatDetailState extends State<ChatDetail> {
         .doc(groupChatId)
         .collection(groupChatId)
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
-    ChatMessages chatMessages = ChatMessages(
-        idFrom: currentUserId,
-        idTo: peerId,
-        timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
-        content: content,
-        type: type);
+
+    Conversation conversation = Conversation()
+      ..idTo = peerId
+      ..idFrom = currentUserId
+      ..messageText = content
+      ..dateCreated = DateTime.now()
+      ..type = type;
+
+    // ChatMessages chatMessages = ChatMessages(
+    //     idFrom: currentUserId,
+    //     idTo: peerId,
+    //     timestamp: DateTime.now(),
+    //     content: content,
+    //     type: type);
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.set(documentReference, chatMessages.toJson());
+      transaction.set(documentReference, conversation.toMap());
+    }).whenComplete(() {
+      if (currentUserId == widget.user.docID.toString()) {
+        return;
+      }
+      updateDataFirestore(
+        FirestoreConstants.pathUserCollection,
+        currentUserId,
+        {
+          'chattingWith': {
+            'chattingWith': user!.displayName,
+            'lastMessage': messageController.text,
+            "dateLastMessage": DateTime.now(),
+          }
+        },
+      );
     });
-  }
-
-  void onSendMessage(String content, int type) {
-    // type: 0 = text, 1 = image, 2 = sticker
-    if (content.trim() != '') {
-      var documentReference = FirebaseFirestore.instance
-          .collection('messages')
-          .doc(groupChatId)
-          .collection(groupChatId!)
-          .doc(DateTime.now().millisecondsSinceEpoch.toString());
-
-      FirebaseFirestore.instance.runTransaction((transaction) async {
-        await transaction.set(
-          documentReference,
-          {
-            'idFrom': currentUserId,
-            'idTo': widget.user.docID.toString(),
-            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
-            'message': content,
-            'type': type
-          },
-        );
-      }).whenComplete(() {
-        Fluttertoast.showToast(msg: 'Sent');
-      });
-    } else {
-      Fluttertoast.showToast(msg: 'Nothing to send');
-    }
-  }
-
-  // void onSendMessage(String content, int type) {
-  //   if (content.trim().isNotEmpty) {
-  //     messageController.clear();
-  //
-  //     ChatProvider.sendMessage(content, type, groupChatId!, currentUserId!, peerId!);
-  //
-  //   } else {
-  //     Fluttertoast.showToast(msg: 'Nothing to send', backgroundColor: ColorConstants.greyColor);
-  //   }
-  // }
-
-  Future<void> updateDataFirestore(String collectionPath, String docPath,
-      Map<String, dynamic> dataNeedUpdate) {
-    return FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(docPath)
-        .update(dataNeedUpdate);
   }
 
   List<QueryDocumentSnapshot> listMessages = [];
 
   // checking if received message
-  bool isMessageReceived(int index) {
+  bool isMessageReceiveds(int index) {
     if ((index > 0 &&
             listMessages[index - 1].get(FirestoreConstants.idFrom) ==
                 currentUserId) ||
@@ -147,7 +149,7 @@ class _ChatDetailState extends State<ChatDetail> {
   }
 
   // checking if sent message
-  bool isMessageSent(int index) {
+  bool isMessageSents(int index) {
     if ((index > 0 &&
             listMessages[index - 1].get(FirestoreConstants.idFrom) !=
                 currentUserId) ||
@@ -406,7 +408,7 @@ class _ChatDetailState extends State<ChatDetail> {
           .collection('messages')
           .doc(groupChatId)
           .collection(groupChatId!)
-          .orderBy("timestamp", descending: true)
+          .orderBy("dateCreated", descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
@@ -417,6 +419,10 @@ class _ChatDetailState extends State<ChatDetail> {
               reverse: true,
               itemBuilder: (context, index) {
                 final messageData = snapshot.data!.docs[index];
+
+                if (context.watch<AuthProvider>().getAppActive == false) {
+                  return Text("Encyrpted");
+                }
 
                 return Container(
                   padding:
@@ -454,13 +460,15 @@ class _ChatDetailState extends State<ChatDetail> {
                               ),
                               padding: EdgeInsets.all(16),
                               child: Text(
-                                messageData.get('content'),
+                                messageData.get('message'),
                                 style: TextStyle(fontSize: 15),
                               ),
                             ),
                             Text(
                               readTimestamp(
-                                int.parse(messageData.get('timestamp')),
+                                messageData
+                                    .get('dateCreated')
+                                    .millisecondsSinceEpoch,
                               ),
                               style:
                                   TextStyle(fontSize: 10, color: Colors.grey),
@@ -591,7 +599,7 @@ class _ChatDetailState extends State<ChatDetail> {
                             margin: const EdgeInsets.only(right: 10, top: 10),
                           )
                         : const SizedBox.shrink(),
-                isMessageSent(index)
+                chatMessages.idFrom == currentUserId
                     ? Container(
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
@@ -633,15 +641,11 @@ class _ChatDetailState extends State<ChatDetail> {
                       ),
               ],
             ),
-            isMessageSent(index)
+            chatMessages.idFrom == currentUserId
                 ? Container(
                     margin: const EdgeInsets.only(right: 50, top: 6, bottom: 8),
                     child: Text(
-                      DateFormat('dd MMM yyyy, hh:mm a').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(chatMessages.timestamp),
-                        ),
-                      ),
+                      chatMessages.timestamp.toString(),
                       style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -658,7 +662,7 @@ class _ChatDetailState extends State<ChatDetail> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                isMessageReceived(index)
+                chatMessages.idFrom != currentUserId
                     // left side (received message)
                     ? Container(
                         clipBehavior: Clip.hardEdge,
@@ -713,15 +717,11 @@ class _ChatDetailState extends State<ChatDetail> {
                         : const SizedBox.shrink(),
               ],
             ),
-            isMessageReceived(index)
+            chatMessages.idFrom != currentUserId
                 ? Container(
                     margin: const EdgeInsets.only(left: 50, top: 6, bottom: 8),
                     child: Text(
-                      DateFormat('dd MMM yyyy, hh:mm a').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(chatMessages.timestamp),
-                        ),
-                      ),
+                      chatMessages.timestamp.toString(),
                       style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
