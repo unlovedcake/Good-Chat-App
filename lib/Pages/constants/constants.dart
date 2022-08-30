@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 // const Color darkShadow = Color.fromRGBO(222, 160, 0, 1);
 // const Color lightShadow = Color.fromRGBO(255, 208, 0, 1);
 
-const Color lightPrimary = Color(0xfff5f5f5
-);
+const Color lightPrimary = Color(0xfff5f5f5);
 const Color darkPrimary = Color(0xffdcdcdc);
 const Color lightShadow =  Colors.white;
 const Color darkShadow =Color(0xff939393);

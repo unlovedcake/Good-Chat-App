@@ -125,7 +125,7 @@ class _ChatDetailState extends State<ChatDetail> {
         currentUserId,
         {
           'chattingWith': {
-            'chattingWith': user!.displayName,
+            'chattingWith':widget.user.email,
             'lastMessage': messageController.text,
             "dateLastMessage": DateTime.now(),
           }

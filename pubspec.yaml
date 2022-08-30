@@ -32,6 +32,9 @@ dependencies:
   cached_network_image: ^3.2.1
   equatable: ^2.0.3
   uuid: ^3.0.6
+  flutter_contacts: ^1.1.5
+  url_launcher: ^6.1.5
+  telephony: ^0.2.0
 
 dev_dependencies:
   flutter_test:

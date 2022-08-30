@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:good_chat_app/ListAllContactsPhone.dart';
 import 'package:good_chat_app/Pages/home.dart';
 import 'package:good_chat_app/Pages/screens/sign_in/sigin_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -111,6 +112,18 @@ class _LoginState extends State<Login> {
                         onPressed: () {},
                         child: const Text(
                           "Forgot Password?",
+                          style: TextStyle(color: Colors.black),
+                        )),
+
+                    TextButton(
+                        onPressed: () {
+
+                          NavigateRoute.gotoPage(
+                              context, ListAllContactPhone());
+
+                        },
+                        child: const Text(
+                          "All Contacts List",
                           style: TextStyle(color: Colors.black),
                         )),
                     MaterialButton(

@@ -195,14 +195,17 @@ class _ChatState extends State<Chat> with WidgetsBindingObserver {
       print("RESUME");
 
     } else if (state == AppLifecycleState.inactive) {
-      print("INACTIVE");
-      context.read<AuthProvider>().setAppActive(false);
+      print("INACTIVEsss");
+      // context.read<AuthProvider>().setAppActive(false);
+      // Future.delayed(Duration(seconds: 5)).then((value) => print("INACTIVE"));
 
     } else if (state == AppLifecycleState.paused) {
-      context.read<AuthProvider>().setAppActive(false);
-      print(" PAUSE");
+      // context.read<AuthProvider>().setAppActive(false);
+      //
+      // Future.delayed(Duration(seconds: 5)).then((value) => print(" PAUSE"));
+
     } else if (state == AppLifecycleState.detached) {
-      context.read<AuthProvider>().setAppActive(false);
+      // context.read<AuthProvider>().setAppActive(false);
       print("DETACHED");
     }
   }
@@ -361,10 +364,14 @@ class _ChatState extends State<Chat> with WidgetsBindingObserver {
 
   Widget buildItem(BuildContext context, DocumentSnapshot? documentSnapshot) {
     User? user = FirebaseAuth.instance.currentUser;
+
     if (documentSnapshot != null) {
       UserModel userChat = UserModel.fromMap(documentSnapshot);
 
-      if (userChat.docID == user!.uid) {
+       String? chattingWith;
+
+      if (userChat.docID == user!.uid ) {
+        chattingWith =  documentSnapshot.get('chattingWith')['lastMessage'];
         return const SizedBox.shrink();
       } else {
         return TextButton(
@@ -418,22 +425,26 @@ class _ChatState extends State<Chat> with WidgetsBindingObserver {
                   documentSnapshot.get('firstName'),
                   style: const TextStyle(color: Colors.black),
                 ),
-                documentSnapshot.get('chattingWith')['lastMessage'] == "" &&
-                        documentSnapshot.get('email') == user.email
+
+                documentSnapshot
+                    .get('chattingWith')['chattingWith'] != user.email
                     ? SizedBox.shrink()
                     : Text(
-                        documentSnapshot.get('docID') == userChat.docID
-                            ? documentSnapshot
-                                .get('chattingWith')['lastMessage']
-                            : "",
+                       documentSnapshot
+                                .get('chattingWith')['lastMessage'],
+
                         style: const TextStyle(color: Colors.black),
                       )
               ],
             ),
-            trailing: Text(
-              readTimestamp(documentSnapshot
-                  .get('chattingWith')['dateLastMessage']
-                  .millisecondsSinceEpoch),
+            trailing: Text( documentSnapshot
+                .get('chattingWith')['chattingWith'] != user.email
+                ? ""
+                : readTimestamp(documentSnapshot
+                .get('chattingWith')['dateLastMessage']
+                .millisecondsSinceEpoch),
+
+
               style: const TextStyle(color: Colors.black),
             ),
           ),
